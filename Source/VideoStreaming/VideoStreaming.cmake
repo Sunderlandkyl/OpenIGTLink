@@ -89,6 +89,30 @@ IF(OpenIGTLink_USE_OpenHEVC)
   )
 ENDIF()
 
+IF(OpenIGTLink_USE_AV1)
+  INCLUDE(${OpenIGTLink_SOURCE_DIR}/SuperBuild/External_AV1.cmake)
+  IF(EXISTS ${AV1_LIBRARY_DIR})
+    LIST(APPEND OpenIGTLink_INCLUDE_DIRS
+      ${AV1_INCLUDE_DIR}
+    )
+    LIST(APPEND OpenIGTLink_SOURCES
+      ${PROJECT_SOURCE_DIR}/Source/VideoStreaming/igtlAV1Decoder.cxx
+      ${PROJECT_SOURCE_DIR}/Source/VideoStreaming/igtlAV1Encoder.cxx
+    )
+    LIST(APPEND OpenIGTLink_INCLUDE_FILES
+      ${PROJECT_SOURCE_DIR}/Source/VideoStreaming/igtlAV1Decoder.h
+      ${PROJECT_SOURCE_DIR}/Source/VideoStreaming/igtlAV1Encoder.h
+    )
+    IF(NOT ${AV1_LIBRARY_DIR} EQUAL "")
+      LIST(APPEND OpenIGTLink_INCLUDE_DIRS
+      "${AV1_LIBRARY_DIR}" )
+      LINK_DIRECTORIES("${AV1_LIBRARY_DIR}/lib")
+    ENDIF()	
+  ELSE()
+    MESSAGE("AV1_INCLUDE_DIR or AV1_LIBRARY_DIR not found")
+  ENDIF()
+ENDIF()
+
 IF(WIN32) # for Windows
   IF(OpenIGTLink_USE_H264)
     LIST(APPEND LINK_LIBS
@@ -114,6 +138,12 @@ IF(WIN32) # for Windows
       ${OpenHEVC_LIBRARY}
     )
   ENDIF()
+  IF(OpenIGTLink_USE_AV1)
+    #To do, library name depends on the compiler setting, could be vpxmt.lib and vpxmtd also. Make sure the setting matches.
+    LIST(APPEND LINK_LIBS
+      ${AV1_LIBRARY}
+    )
+  ENDIF()
 ELSE() # for POSIX-compatible OSs
   IF(OpenIGTLink_USE_H264)
     LIST(APPEND LINK_LIBS
@@ -133,6 +163,11 @@ ELSE() # for POSIX-compatible OSs
   IF(OpenIGTLink_USE_OpenHEVC)
     LIST(APPEND LINK_LIBS
       ${OpenHEVC_LIBRARY}      
+    )
+  ENDIF()
+  IF(OpenIGTLink_USE_AV1)
+    LIST(APPEND LINK_LIBS
+      ${AV1_LIBRARY}      
     )
   ENDIF()
 ENDIF()

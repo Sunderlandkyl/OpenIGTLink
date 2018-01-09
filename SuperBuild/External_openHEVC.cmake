@@ -24,11 +24,11 @@ ELSE()
   SET (OpenHEVC_LIBRARY_DIR "${CMAKE_BINARY_DIR}/Deps/OpenHEVC-bin")
   IF(WIN32) # for Windows
   	SET(OpenHEVC_LIBRARY optimized ${OpenHEVC_LIBRARY_DIR}\\Release\\LibOpenHevcWrapper.lib debug ${OpenHEVC_LIBRARY_DIR}\\Debug\\LibOpenHevcWrapper.lib CACHE STRING "OpenHEVC library" FORCE)
-	ELSE()
-		IF (CMAKE_CONFIGURATION_TYPES) 
-			SET(OpenHEVC_LIBRARY optimized ${OpenHEVC_LIBRARY_DIR}/Release/libLibOpenHevcWrapper.a debug ${OpenHEVC_LIBRARY_DIR}/Debug/libLibOpenHevcWrapper.a CACHE STRING "OpenHEVC library" FORCE)
-		ENDIF()	
-	ENDIF()
+  ELSE()
+	  IF (CMAKE_CONFIGURATION_TYPES) 
+	    SET(OpenHEVC_LIBRARY optimized ${OpenHEVC_LIBRARY_DIR}/Release/libLibOpenHevcWrapper.a debug ${OpenHEVC_LIBRARY_DIR}/Debug/libLibOpenHevcWrapper.a CACHE STRING "OpenHEVC library" FORCE)
+	  ENDIF()	
+  ENDIF()
   ExternalProject_Add( OpenHEVC
     PREFIX "${CMAKE_BINARY_DIR}/Deps/OpenHEVC-prefix"
     SOURCE_DIR "${CMAKE_BINARY_DIR}/Deps/OpenHEVC"
