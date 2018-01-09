@@ -32,16 +32,16 @@
 #include "igtlVideoMessage.h"
 #include "igtlTimeStamp.h"
 
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
-//  typedef struct VpxInterfaceEncoder {
-//    vpx_codec_iface_t *(*const codec_interface)();
-//  } VpxInterfaceEncoder;
-//  
-//#ifdef __cplusplus
-//} /* extern "C" */
-//#endif
+#ifdef __cplusplus
+extern "C" {
+#endif
+  typedef struct AomInterfaceEncoder {
+    aom_codec_ctx_t *(*const codec_interface)();
+  } AomInterfaceEncoder;
+  
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 using namespace std;
 
@@ -103,26 +103,26 @@ public:
   
 private:
   
-  //const AV1Encoder *encoder;
+  const AomInterfaceEncoder *encoder;
   
-  //void error_output(vpx_codec_ctx_t *ctx, const char *s);
+  void error_output(aom_codec_ctx_t *ctx, const char *s);
   
-  //int vpx_img_plane_width(const vpx_image_t *img, int plane);
+  int aom_img_plane_width(const aom_image_t *img, int plane);
   
-  //int vpx_img_plane_height(const vpx_image_t *img, int plane);
+  int aom_img_plane_height(const aom_image_t *img, int plane);
   
-  //vpx_codec_enc_cfg_t cfg;
+  aom_codec_enc_cfg_t cfg;
   
-  //vpx_codec_ctx_t* codec;
+  aom_codec_ctx_t* codec;
   
-  //vpx_image_t* inputImage;
-  //
-  //vpx_codec_iter_t iter;
-  //
-  //const vpx_fixed_buf_t *encodedBuf;
-  //
-  //const vpx_codec_cx_pkt_t *pkt;
-  //
+  aom_image_t* inputImage;
+  
+  aom_codec_iter_t iter;
+  
+  const aom_fixed_buf_t *encodedBuf;
+  
+  const aom_codec_cx_pkt_t *pkt;
+  
   unsigned long deadlineMode;
   
 };
