@@ -1,6 +1,6 @@
 /*=========================================================================
  
- Program:   VPXEncoder
+ Program:   AOMEncoder
  Language:  C++
  
  Copyright (c) Insight Software Consortium. All rights reserved.
@@ -12,38 +12,38 @@
  =========================================================================*/
 
 #include "igtlAV1Decoder.h"
+#include <aom/aomdx.h>
 
+static const igtlAV1Decoder AV1StaticDecoder[] = { { &aom_codec_AV1_dx } };
 
-//static const AV1Decoder AV1StaticDecoder[] = {{&vpx_codec_AV1_dx}};
-//
-//// TODO(dkovalev): move this function to vpx_image.{c, h}, so it will be part
-//// of vpx_image_t support, this section will be removed when it is moved to vpx_image
-//int AV1Decoder::vpx_img_plane_width(const vpx_image_t *img, int plane) {
-//  if (plane > 0 && img->x_chroma_shift > 0)
-//    return (img->d_w + 1) >> img->x_chroma_shift;
-//  else
-//    return img->d_w;
-//}
-//
-//int AV1Decoder::vpx_img_plane_height(const vpx_image_t *img, int plane) {
-//  if (plane > 0 && img->y_chroma_shift > 0)
-//    return (img->d_h + 1) >> img->y_chroma_shift;
-//  else
-//    return img->d_h;
-//}
+// TODO(dkovalev): move this function to aom_image.{c, h}, so it will be part
+// of aom_image_t support, this section will be removed when it is moved to aom_image
+int igtlAV1Decoder::aom_img_plane_width(const aom_image_t *img, int plane) {
+  if (plane > 0 && img->x_chroma_shift > 0)
+    return (img->d_w + 1) >> img->x_chroma_shift;
+  else
+    return img->d_w;
+}
+
+int igtlAV1Decoder::aom_img_plane_height(const aom_image_t *img, int plane) {
+  if (plane > 0 && img->y_chroma_shift > 0)
+    return (img->d_h + 1) >> img->y_chroma_shift;
+  else
+    return img->d_h;
+}
 
 
 igtlAV1Decoder::igtlAV1Decoder()
 {
-  //decoder = &AV1StaticDecoder[0];
-  //vpx_codec_dec_init(&codec, decoder->codec_interface(), NULL, 0);
-  //this->deviceName = "";
+  decoder = &AV1StaticDecoder[0];
+  aom_codec_dec_init(&codec, decoder->codec_interface(), NULL, 0);
+  this->deviceName = "";
 }
 
 igtlAV1Decoder::~igtlAV1Decoder()
 {
-  //vpx_codec_destroy(&codec);
-  //decoder = NULL;
+  aom_codec_destroy(&codec);
+  decoder = NULL;
 }
 
 int igtlAV1Decoder::DecodeVideoMSGIntoSingleFrame(igtl::VideoMessage* videoMessage, SourcePicture* pDecodedPic)
@@ -100,22 +100,22 @@ void igtlAV1Decoder::ComposeByteSteam(igtl_uint8** inputData, int dimension[2], 
 
 int igtlAV1Decoder::DecodeBitStreamIntoFrame(unsigned char* bitstream, igtl_uint8* outputFrame, igtl_uint32 dimensions[2], igtl_uint64& iStreamSize)
 {
-  //if (!vpx_codec_decode(&codec, bitstream, (unsigned int)iStreamSize, NULL, 0))
-  //  {
-  //  iter = NULL;
-  //  if ((outputImage = vpx_codec_get_frame(&codec, &iter)) != NULL)
-  //    {
-  //    int stride[3] = { outputImage->stride[0], outputImage->stride[1], outputImage->stride[2] };
-  //    int convertedDimensions[2] = { vpx_img_plane_width(outputImage, 0) *
-  //      ((outputImage->fmt & VPX_IMG_FMT_HIGHBITDEPTH) ? 2 : 1), vpx_img_plane_height(outputImage, 0) };
-  //    ComposeByteSteam(outputImage->planes, convertedDimensions, stride, outputFrame);
-  //    return 2;
-  //    }
-  //  }
-  //else
-  //  {
-  //  vpx_codec_dec_init(&codec, decoder->codec_interface(), NULL, 0);
-  //  std::cerr << "decode failed" << std::endl;
-  //  }
+  if (!aom_codec_decode(&codec, bitstream, (unsigned int)iStreamSize, NULL, 0))
+    {
+    iter = NULL;
+    if ((outputImage = aom_codec_get_frame(&codec, &iter)) != NULL)
+      {
+      int stride[3] = { outputImage->stride[0], outputImage->stride[1], outputImage->stride[2] };
+      int convertedDimensions[2] = { aom_img_plane_width(outputImage, 0) *
+        ((outputImage->fmt & AOM_IMG_FMT_HIGHBITDEPTH) ? 2 : 1), aom_img_plane_height(outputImage, 0) };
+      ComposeByteSteam(outputImage->planes, convertedDimensions, stride, outputFrame);
+      return 2;
+      }
+    }
+  else
+    {
+    //aom_codec_dec_init(&codec, decoder->codec_interface(), NULL, 0);
+    std::cerr << "decode failed" << std::endl;
+    }
   return -1;
 }

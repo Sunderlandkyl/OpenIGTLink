@@ -1,6 +1,6 @@
 /*=========================================================================
  
- Program:   VPXEncoder
+ Program:   AOMDecoder
  Language:  C++
  
  Copyright (c) Insight Software Consortium. All rights reserved.
@@ -34,12 +34,12 @@
 #include "av1/decoder/decoder.h"
 #include "av1/av1_iface_common.h"
 
-//#include "vpx/vpx_decoder.h"
-//#include "vpx_config.h"
-//#include "vpx/vp8dx.h"
-//#include "vpx/vpx_codec.h"
-//#include "vpx/vpx_image.h"
-//#include "vpx/vpx_integer.h"
+//#include "aom/aom_decoder.h"
+//#include "aom_config.h"
+//#include "aom/vp8dx.h"
+//#include "aom/aom_codec.h"
+//#include "aom/aom_image.h"
+//#include "aom/aom_integer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -68,15 +68,15 @@ private:
   
   const AV1Decoder* decoder;
   
-  //int vpx_img_plane_width(const vpx_image_t *img, int plane);
-  //
-  //int vpx_img_plane_height(const vpx_image_t *img, int plane);
-  //
-  //vpx_codec_ctx_t codec;
-  //
-  //vpx_image_t* outputImage;
-  //
-  //vpx_codec_iter_t iter;
+  int aom_img_plane_width(const aom_image_t *img, int plane);
+  
+  int aom_img_plane_height(const aom_image_t *img, int plane);
+  
+  aom_codec_ctx_t codec;
+  
+  aom_image_t* outputImage;
+  
+  aom_codec_iter_t iter;
   
 };
 
