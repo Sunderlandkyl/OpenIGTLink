@@ -259,6 +259,22 @@ TEST(VideoMessageTest, EncodeAndDecodeFormatVersion1)
   std::cerr<<"End of H264 tests "<<std::endl;
   std::cerr<<"--------------------------- "<<std::endl;
 #endif
+#if defined(OpenIGTLink_USE_AV1)
+  std::cerr << "--------------------------- " << std::endl;
+  std::cerr << "Begin of VPX tests " << std::endl;
+  igtlAV1Encoder* VPXStreamEncoder = new igtlAV1Encoder();
+  igtlAV1Decoder* VPXStreamDecoder = new igtlAV1Decoder();
+  VPXStreamEncoder->SetPicWidthAndHeight(Width, Height);
+  VPXStreamEncoder->SetLosslessLink(true);
+  VPXStreamEncoder->InitializeEncoder();
+  EXPECT_EQ(TestWithVersion(IGTL_HEADER_VERSION_1, VPXStreamEncoder, VPXStreamDecoder, true), 0);
+  VPXStreamEncoder->SetSpeed(VPXStreamEncoder->FastestSpeed);
+  VPXStreamEncoder->SetLosslessLink(false);
+  std::cerr << "Encoding Time Using Maximum Speed: " << std::endl;
+  EXPECT_EQ(TestWithVersion(IGTL_HEADER_VERSION_1, VPXStreamEncoder, VPXStreamDecoder, false), 0);
+  std::cerr << "End of VPX tests " << std::endl;
+  std::cerr << "--------------------------- " << std::endl;
+#endif
   }
 
 
@@ -309,6 +325,20 @@ TEST(VideoMessageTest, EncodeAndDecodeFormatVersion1)
       std::cerr<<"--------------------------- "<<std::endl;
   #endif
   #if defined(OpenIGTLink_USE_AV1)
+    //std::cerr << "--------------------------- " << std::endl;
+    //std::cerr << "Begin of VPX tests " << std::endl;
+    //igtlAV1Encoder* AOMStreamEncoder = new igtlAV1Encoder();
+    //igtlAV1Decoder* AOMStreamDecoder = new igtlAV1Decoder();
+    //AOMStreamEncoder->SetPicWidthAndHeight(Width, Height);
+    //AOMStreamEncoder->InitializeEncoder();
+    //AOMStreamEncoder->SetLosslessLink(true);
+    //TestWithVersion(IGTL_HEADER_VERSION_2, AOMStreamEncoder, AOMStreamDecoder, true);
+    //AOMStreamEncoder->SetSpeed(AOMStreamEncoder->FastestSpeed);
+    //AOMStreamEncoder->SetLosslessLink(false);
+    //std::cerr << "Encoding Time Using Maximum Speed: " << std::endl;
+    //TestWithVersion(IGTL_HEADER_VERSION_2, AOMStreamEncoder, AOMStreamDecoder, false);
+    //std::cerr << "End of VPX tests " << std::endl;
+    //std::cerr << "--------------------------- " << std::endl;
   #endif
     }
 #endif
