@@ -47,11 +47,11 @@ int igtlAV1Encoder::aom_img_plane_height(const aom_image_t *img, int plane) {
 
 igtlAV1Encoder::igtlAV1Encoder(char *configFile):GenericEncoder()
 {
-  //this->encoder = &AV1StaticEncoder[0];
+  this->encoder = &AV1StaticEncoder[0];
   codec = new aom_codec_ctx_t();
   encodedBuf = new aom_fixed_buf_t();
   inputImage = new aom_image_t();
-  //deadlineMode = AOM_DL_REALTIME;
+  deadlineMode = AOM_DL_GOOD_QUALITY; //TODO: different deadline mode?
   isLossLessLink = true;
   codecSpeed = 0;
   FillSpecificParameters ();
@@ -72,18 +72,18 @@ igtlAV1Encoder::~igtlAV1Encoder()
 }
 
 int igtlAV1Encoder::FillSpecificParameters() {
-  //if (aom_codec_enc_config_default(encoder->codec_interface(), &cfg, 0))
-  //  {
-  //  error_output(codec, "Failed to get default codec config.");
-  //  return -1;
-  //  }
-  //cfg.g_error_resilient = true;
-  //aom_codec_enc_init(codec, encoder->codec_interface(), &cfg, 0);
-  //if(this->SetSpeed(FastestSpeed)!=0)
-  //  {
-  //  error_output(codec, "Failed to set the speed to be the fastest.");
-  //  return -1;
-  //  }
+  if (aom_codec_enc_config_default(encoder->codec_interface(), &cfg, 0))
+    {
+    error_output(codec, "Failed to get default codec config.");
+    return -1;
+    }
+  cfg.g_error_resilient = true;
+  aom_codec_enc_init(codec, encoder->codec_interface(), &cfg, 0);
+  if(this->SetSpeed(FastestSpeed)!=0)
+    {
+    error_output(codec, "Failed to set the speed to be the fastest.");
+    return -1;
+    }
   return 0;
 }
 
@@ -111,7 +111,7 @@ int igtlAV1Encoder::SetKeyFrameDistance(int frameNum)
 }
 
 
-int igtlAV1Encoder::SetRCTaregetBitRate(unsigned int bitRate)
+int igtlAV1Encoder::SetRCTargetBitRate(unsigned int bitRate)
 {
   //// The bit rate in AOM is in Kilo
   int bitRateInKilo = bitRate/1000;
@@ -162,7 +162,7 @@ int igtlAV1Encoder::SetLosslessLink(bool linkMethod)
 
 int igtlAV1Encoder::SetSpeed(int speed)
 {
-  //this->SetDeadlineMode(AOM_DL_REALTIME);
+  this->SetDeadlineMode(AOM_DL_GOOD_QUALITY);
   this->codecSpeed = speed;
   if (speed>=SlowestSpeed && speed<=FastestSpeed)
     {  
@@ -179,11 +179,11 @@ int igtlAV1Encoder::InitializeEncoder()
   cfg.g_h = this->GetPicHeight();
   aom_img_alloc(inputImage, AOM_IMG_FMT_I420, cfg.g_w,
                 cfg.g_h, 1);
-  //if (aom_codec_enc_init(codec, encoder->codec_interface(), &cfg, 0))
-  //  {
-  //  error_output(codec, "Failed to initialize encoder");
-  //  return -1;
-  //  }
+  if (aom_codec_enc_init(codec, encoder->codec_interface(), &cfg, 0))
+    {
+    error_output(codec, "Failed to initialize encoder");
+    return -1;
+    }
   
   if (aom_codec_control_(codec, AV1E_SET_LOSSLESS, this->GetLosslessLink()))
     {
@@ -193,11 +193,11 @@ int igtlAV1Encoder::InitializeEncoder()
   
   if (codecSpeed >= SlowestSpeed && codecSpeed <= FastestSpeed)
     {
-    //if (aom_codec_control(codec, VP8E_SET_CPUUSED, codecSpeed))
-    //  {
-    //  error_output(codec, "Failed to set Speed");
-    //  return -1;
-    //  }
+    if (aom_codec_control(codec, AOME_SET_CPUUSED, codecSpeed))
+      {
+      error_output(codec, "Failed to set Speed");
+      return -1;
+      }
     }
   this->initializationDone = true;
   return 0;
@@ -220,7 +220,7 @@ int igtlAV1Encoder::SetPicWidthAndHeight(unsigned int width, unsigned int height
 
 int igtlAV1Encoder::SetDeadlineMode(unsigned long mode)
 {
-  //this->deadlineMode = mode;
+  this->deadlineMode = mode;
   return 0;
 }
 

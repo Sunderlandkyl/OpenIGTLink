@@ -79,6 +79,7 @@ int main(int argc, char* argv[])
 #endif
 #if defined(OpenIGTLink_USE_AV1)
   igtlAV1Decoder* AV1StreamDecoder = new igtlAV1Decoder();
+  decoder = AV1StreamDecoder;
 #endif
   
   //------------------------------------------------------------

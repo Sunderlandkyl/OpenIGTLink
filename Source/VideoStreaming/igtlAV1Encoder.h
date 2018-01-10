@@ -75,7 +75,7 @@ public:
   
   virtual int SetQP(int maxQP, int minQP);
   
-  virtual int SetRCTaregetBitRate(unsigned int bitRate);
+  virtual int SetRCTargetBitRate(unsigned int bitRate);
   
   virtual int SetLosslessLink(bool linkMethod);
   

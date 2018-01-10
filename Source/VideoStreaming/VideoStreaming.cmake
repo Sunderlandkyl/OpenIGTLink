@@ -56,7 +56,7 @@ IF(OpenIGTLink_USE_VP9)
       LIST(APPEND OpenIGTLink_INCLUDE_DIRS
       "${VP9_LIBRARY_DIR}" )
       LINK_DIRECTORIES("${VP9_LIBRARY_DIR}/lib")
-    ENDIF()	
+    ENDIF()
   ELSE()
     MESSAGE("VP9_INCLUDE_DIR or VP9_LIBRARY_DIR no found")
   ENDIF()
@@ -107,7 +107,7 @@ IF(OpenIGTLink_USE_AV1)
       LIST(APPEND OpenIGTLink_INCLUDE_DIRS
         ${AV1_LIBRARY_DIR}/Release )
       LINK_DIRECTORIES("${AV1_LIBRARY_DIR}/lib/Release")
-    ENDIF()	
+    ENDIF()
   ELSE()
     MESSAGE("AV1_INCLUDE_DIR or AV1_LIBRARY_DIR not found")
   ENDIF()
@@ -162,7 +162,7 @@ ELSE() # for POSIX-compatible OSs
   ENDIF()
   IF(OpenIGTLink_USE_OpenHEVC)
     LIST(APPEND LINK_LIBS
-      ${OpenHEVC_LIBRARY}      
+      ${OpenHEVC_LIBRARY}
     )
   ENDIF()
   IF(OpenIGTLink_USE_AV1)
