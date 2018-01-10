@@ -53,6 +53,11 @@
   #include "H265Decoder.h"
 #endif
 
+#if defined (OpenIGTLink_USE_AV1)
+  #include "igtlAV1Encoder.h"
+  #include "igtlAV1Decoder.h"
+#endif
+
 #include "igtlCodecCommonClasses.h"
 #include "igtlOSUtil.h"
 
@@ -302,6 +307,8 @@ TEST(VideoMessageTest, EncodeAndDecodeFormatVersion1)
       TestWithVersion(IGTL_HEADER_VERSION_2, H265StreamEncoder, H265StreamDecoder,false);
       std::cerr<<"End of VPX tests "<<std::endl;
       std::cerr<<"--------------------------- "<<std::endl;
+  #endif
+  #if defined(OpenIGTLink_USE_AV1)
   #endif
     }
 #endif

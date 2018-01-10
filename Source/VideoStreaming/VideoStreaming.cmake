@@ -105,8 +105,8 @@ IF(OpenIGTLink_USE_AV1)
     )
     IF(NOT ${AV1_LIBRARY_DIR} EQUAL "")
       LIST(APPEND OpenIGTLink_INCLUDE_DIRS
-      "${AV1_LIBRARY_DIR}" )
-      LINK_DIRECTORIES("${AV1_LIBRARY_DIR}/lib")
+        ${AV1_LIBRARY_DIR}/Release )
+      LINK_DIRECTORIES("${AV1_LIBRARY_DIR}/lib/Release")
     ENDIF()	
   ELSE()
     MESSAGE("AV1_INCLUDE_DIR or AV1_LIBRARY_DIR not found")
@@ -139,9 +139,9 @@ IF(WIN32) # for Windows
     )
   ENDIF()
   IF(OpenIGTLink_USE_AV1)
-    #To do, library name depends on the compiler setting, could be vpxmt.lib and vpxmtd also. Make sure the setting matches.
+    #TODO: look for debug build as well
     LIST(APPEND LINK_LIBS
-      ${AV1_LIBRARY}
+      ${AV1_LIBRARY_DIR}/Release/aom.lib
     )
   ENDIF()
 ELSE() # for POSIX-compatible OSs
@@ -167,7 +167,8 @@ ELSE() # for POSIX-compatible OSs
   ENDIF()
   IF(OpenIGTLink_USE_AV1)
     LIST(APPEND LINK_LIBS
-      ${AV1_LIBRARY}      
+      ${AV1_LIBRARY_DIR}/Release/aom.lib
     )
+    message(LINK_LIBS ${LINK_LIBS})
   ENDIF()
 ENDIF()

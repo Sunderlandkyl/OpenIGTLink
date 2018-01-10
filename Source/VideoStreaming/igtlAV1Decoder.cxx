@@ -14,7 +14,7 @@
 #include "igtlAV1Decoder.h"
 #include <aom/aomdx.h>
 
-static const igtlAV1Decoder AV1StaticDecoder[] = { { &aom_codec_AV1_dx } };
+//static const AV1Decoder AV1StaticDecoder[] = {{&aom_codec_av1_dx}};
 
 // TODO(dkovalev): move this function to aom_image.{c, h}, so it will be part
 // of aom_image_t support, this section will be removed when it is moved to aom_image
@@ -35,15 +35,15 @@ int igtlAV1Decoder::aom_img_plane_height(const aom_image_t *img, int plane) {
 
 igtlAV1Decoder::igtlAV1Decoder()
 {
-  decoder = &AV1StaticDecoder[0];
-  aom_codec_dec_init(&codec, decoder->codec_interface(), NULL, 0);
-  this->deviceName = "";
+  //decoder = &AV1StaticDecoder[0];
+  //aom_codec_dec_init(&codec, decoder->codec_interface(), NULL, 0);
+  //this->deviceName = "";
 }
 
 igtlAV1Decoder::~igtlAV1Decoder()
 {
-  aom_codec_destroy(&codec);
-  decoder = NULL;
+  //aom_codec_destroy(&codec);
+  //decoder = NULL;
 }
 
 int igtlAV1Decoder::DecodeVideoMSGIntoSingleFrame(igtl::VideoMessage* videoMessage, SourcePicture* pDecodedPic)

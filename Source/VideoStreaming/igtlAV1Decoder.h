@@ -31,15 +31,15 @@
 #include "igtlVideoMessage.h"
 #include "igtlCodecCommonClasses.h"
 
-#include "av1/decoder/decoder.h"
-#include "av1/av1_iface_common.h"
+//#include "av1/decoder/decoder.h"
+//#include "av1/av1_iface_common.h"
 
-//#include "aom/aom_decoder.h"
+#include "aom/aom_decoder.h"
 //#include "aom_config.h"
-//#include "aom/vp8dx.h"
-//#include "aom/aom_codec.h"
-//#include "aom/aom_image.h"
-//#include "aom/aom_integer.h"
+#include "aom/aom_codec.h"
+#include "aom/aom_image.h"
+#include "aom/aom_integer.h"
+//#include "av1/common/common.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,7 +53,7 @@ extern "C" {
 #endif
 
 #define NO_DELAY_DECODING
-class igtlAV1Decoder:public GenericDecoder
+class igtlAV1Decoder : public GenericDecoder
 {
 public: 
   igtlAV1Decoder();
@@ -66,7 +66,7 @@ public:
 private:
   virtual void ComposeByteSteam(igtl_uint8** inputData, int dimension[2], int iStride[2], igtl_uint8 *outputFrame);
   
-  const AV1Decoder* decoder;
+  const Av1InterfaceDecoder* decoder;
   
   int aom_img_plane_width(const aom_image_t *img, int plane);
   

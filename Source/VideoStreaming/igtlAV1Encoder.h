@@ -17,12 +17,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-//#include "vpx/vp8cx.h"
-//#include "vpx/vpx_image.h"
-
-#include "av1/encoder/encoder.h"
-
-
+//#include "av1/encoder/encoder.h"
+#include "aom\aom.h"
+#include "aom\aom_encoder.h"
 
 #include "igtlCodecCommonClasses.h"
 #include "igtl_header.h"
@@ -36,7 +33,7 @@
 extern "C" {
 #endif
   typedef struct AomInterfaceEncoder {
-    aom_codec_ctx_t *(*const codec_interface)();
+    aom_codec_iface_t *(*const codec_interface)();
   } AomInterfaceEncoder;
   
 #ifdef __cplusplus

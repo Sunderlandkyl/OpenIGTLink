@@ -20,11 +20,12 @@ ELSE()
   # OpenIGTLink has not been built yet, so download and build it as an external project
   MESSAGE(STATUS "Downloading AV1 ${GIT_TAG} from: ${GIT_REPOSITORY}")              
   SET (AV1_INCLUDE_DIR "${CMAKE_BINARY_DIR}/Deps/AV1/" CACHE PATH "AV1 source directory" FORCE)
-  SET (AV1_LIBRARY_DIR "${CMAKE_BINARY_DIR}/Deps/AV1-bin" CACHE PATH "AV1 library directory" FORCE)                 
+  SET (AV1_LIBRARY_DIR "${CMAKE_BINARY_DIR}/Deps/AV1-bin/lib/" CACHE PATH "AV1 library directory" FORCE)    
+  SET (AV1_BINARY_DIR "${CMAKE_BINARY_DIR}/Deps/AV1-bin" CACHE PATH "AV1 library directory" FORCE)    
   ExternalProject_Add( AV1
     PREFIX "${CMAKE_BINARY_DIR}/Deps/AV1-prefix"
     SOURCE_DIR "${CMAKE_BINARY_DIR}/Deps/AV1"
-    BINARY_DIR "${AV1_LIBRARY_DIR}"
+    BINARY_DIR "${AV1_BINARY_DIR}"
     #--Download step--------------
     GIT_REPOSITORY "${GIT_REPOSITORY}"
     GIT_TAG ${GIT_TAG}
@@ -39,8 +40,8 @@ ELSE()
       -DBUILD_SHARED_LIBS:BOOL=OFF
       -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
       -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
-	  -DAOM_TARGET_CPU=generic
-	  -DENABLE_EXAMPLES:BOOL=OFF
+      -DAOM_TARGET_CPU=generic
+      -DENABLE_EXAMPLES:BOOL=OFF
     #--Build step-----------------
     BUILD_ALWAYS 1
     INSTALL_COMMAND ""

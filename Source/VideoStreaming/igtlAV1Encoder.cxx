@@ -15,7 +15,9 @@
 #include "igtlAV1Encoder.h"
 #include "igtlVideoMessage.h"
 
-//static const AomInterfaceEncoder AV1StaticEncoder[] = {{&aom_codec_av1_cx}};
+#include "aom\aomcx.h"
+
+static const AomInterfaceEncoder AV1StaticEncoder[] = {{&aom_codec_av1_cx}};
 
 void igtlAV1Encoder::error_output(aom_codec_ctx_t *ctx, const char *s) {
   const char *detail = aom_codec_error_detail(ctx);
