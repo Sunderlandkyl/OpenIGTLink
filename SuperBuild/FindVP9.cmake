@@ -38,9 +38,9 @@ else()
       )
       
   if("${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
-    list(APPEND VP9_PATH_HINTS  ${VP9_LIBRARY_DIR}/x64/Release ${VP9_LIBRARY_DIR}/x64/Debug)
+    list(APPEND VP9_PATH_HINTS  ${VP9_ROOT}/lib/x64/)
   else()
-    list(APPEND VP9_PATH_HINTS  ${VP9_LIBRARY_DIR}/Win32/Release ${VP9_LIBRARY_DIR}/Win32/Debug)
+    list(APPEND VP9_PATH_HINTS  ${VP9_ROOT}/lib/x86/)
   endif()
   find_path(VP9_LIBRARY_DIRECT_DIR vpxmdd.lib | vpxmd.lib
      HINTS  ${VP9_PATH_HINTS} 
