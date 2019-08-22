@@ -76,9 +76,9 @@ int main(int argc, char* argv[])
         {
         //------------------------------------------------------------
         // size parameters
-        int   size[]     = {256, 256, 1};       // image dimension
+        int   size[]     = {1281, 500, 1};       // image dimension
         float spacing[]  = {1.0, 1.0, 5.0};     // spacing (mm/pixel)
-        int   svsize[]   = {256, 256, 1};       // sub-volume size
+        int   svsize[]   = {1281, 500, 1};       // sub-volume size
         int   svoffset[] = {0, 0, 0};           // sub-volume offset
         int   scalarType = igtl::ImageMessage::TYPE_UINT8;// scalar type
         
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 
         //------------------------------------------------------------
         // Set image data (See GetTestImage() bellow for the details)
-        GetTestImage(imgMsg, filedir, i % 5);
+        GetTestImage(imgMsg, filedir, i % 1);
         
         //------------------------------------------------------------
         // Get randome orientation matrix and set it.
